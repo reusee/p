@@ -2,22 +2,35 @@
 #include <QQmlContext>
 #include <QQmlApplicationEngine>
 
+extern "C" {
+  char* fmtTime(int, int, int);
+}
+
 class Data : public QObject {
   Q_OBJECT
+
   Q_PROPERTY(QList<QString> videos READ getVideos NOTIFY videosChanged)
 
   QList<QString> videos;
 
 public:
+
   QList<QString> getVideos() {
     return videos;
   }
+
   void addVideo(char *v) {
     videos.append(v);
   }
 
+  Q_INVOKABLE QString formatTime(int position, int duration, int rate) {
+    return QString(fmtTime(position, duration, rate));
+  }
+
 signals:
+
   void videosChanged();
+
 };
 
 #include "object.ccc"
