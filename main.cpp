@@ -37,7 +37,7 @@ signals:
 
 extern "C" {
 
-void run(int argc, char **argv) {
+void run(int argc, char **argv, char *qml_path) {
   QApplication app(argc, argv);
   QQmlApplicationEngine engine;
 
@@ -47,7 +47,7 @@ void run(int argc, char **argv) {
   }
   engine.rootContext()->setContextObject(data);
 
-  engine.load(QUrl(QStringLiteral("main.qml")));
+  engine.load(QUrl(qml_path));
   app.exec();
 }
 

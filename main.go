@@ -1,7 +1,7 @@
 package main
 
 /*
-void run(int, char**);
+void run(int, char**, char*);
 #cgo pkg-config: Qt5Quick Qt5Widgets Qt5Qml
 #cgo CXXFLAGS: --std=c++11
 #cgo LDFLAGS: -lstdc++
@@ -9,6 +9,7 @@ void run(int, char**);
 import "C"
 import (
 	"os"
+	"path/filepath"
 	"runtime"
 )
 
@@ -18,5 +19,6 @@ func main() {
 		cArgs = append(cArgs, C.CString(arg))
 	}
 	runtime.LockOSThread()
-	C.run(C.int(len(os.Args)), &cArgs[0])
+	_, f, _, _ := runtime.Caller(0)
+	C.run(C.int(len(os.Args)), &cArgs[0], C.CString(filepath.Join(filepath.Dir(f), "main.qml")))
 }
